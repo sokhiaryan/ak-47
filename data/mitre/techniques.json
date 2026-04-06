@@ -1,0 +1,18 @@
+{
+  "techniques": [
+    {
+      "id": "T1040",
+      "name": "Network Service Discovery",
+      "description": "Adversaries may attempt to get a listing of services running on remote hosts, including those that may be vulnerable to remote software exploitation.",
+      "tactic": "reconnaissance",
+      "platform": "Linux, Windows, macOS"
+    }
+  ],
+  "tactics": [
+    {
+      "id": "TA0043",
+      "name": "Reconnaissance",
+      "description": "The adversary is trying to gather information they can use to plan future operations."
+    }
+  ]
+}
