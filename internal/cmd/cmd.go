@@ -7,12 +7,14 @@ import (
 	"strings"
 
 	"github.com/sokhiaryan/ak-47/internal/engine"
+	"github.com/sokhiaryan/ak-47/internal/output"
 	"github.com/sokhiaryan/ak-47/internal/registry"
 	"github.com/sokhiaryan/ak-47/modules/reconnaissance"
 	"github.com/spf13/cobra"
 )
 
 var version = "0.1.0"
+var outputFormat = "text"
 
 var globalRegistry = registry.New()
 
@@ -23,6 +25,7 @@ func init() {
 	rootCmd.AddCommand(listCmd)
 	rootCmd.AddCommand(searchCmd)
 	rootCmd.AddCommand(runCmd)
+	runCmd.Flags().StringVar(&outputFormat, "output", "text", "Output format: text, json")
 }
 
 var rootCmd = &cobra.Command{
@@ -112,11 +115,8 @@ func startShell() {
 				continue
 			}
 			result := mod.Execute(parts[2], engine.Options{Timeout: 30000, Workers: 50})
-			if result.Success {
-				fmt.Printf("[+] %s\n", result.Message)
-			} else {
-				fmt.Printf("[-] %s\n", result.Message)
-			}
+			formatter := output.GetFormatter(outputFormat)
+			fmt.Print(formatter.Format(result))
 		default:
 			fmt.Printf("Unknown command: %s\n", command)
 		}
@@ -201,10 +201,7 @@ var runCmd = &cobra.Command{
 			Workers: 50,
 		})
 
-		if result.Success {
-			fmt.Printf("[+] %s\n", result.Message)
-		} else {
-			fmt.Printf("[-] %s\n", result.Message)
-		}
+		formatter := output.GetFormatter(outputFormat)
+		fmt.Print(formatter.Format(result))
 	},
 }
