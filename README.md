@@ -14,6 +14,7 @@ AK-47 is a high-performance, modular penetration testing framework written in Go
 - **Concurrent Execution**: High-performance scanning using goroutines
 - **Interactive Shell**: Professional CLI with search/load/run workflow
 - **Structured Output**: JSON and text formats for pipelines
+- **Verbose Mode**: Detailed execution logging with `-v` flag
 
 ## Installation
 
@@ -34,11 +35,17 @@ go build -o ak-47 ./cmd/cli
 # Search modules
 ./ak-47 search port
 
+# Get module info
+./ak-47 info port-scanner
+
 # Run a module
 ./ak-47 run port-scanner 192.168.1.1
 
-# Output as JSON
+# Run with JSON output
 ./ak-47 run port-scanner 192.168.1.1 --output json
+
+# Run with verbose output
+./ak-47 run port-scanner 192.168.1.1 -v
 
 # Interactive shell
 ./ak-47 shell
@@ -48,8 +55,9 @@ go build -o ak-47 ./cmd/cli
 
 ```
 ak-47> list
-ak-47> search port
+ak-47> search http
 ak-47> info port-scanner
+ak-47> options port-scanner
 ak-47> run port-scanner 192.168.1.1
 ak-47> exit
 ```
@@ -60,6 +68,7 @@ ak-47> exit
 ak-47/
 ├── cmd/cli/           # CLI entry point
 ├── internal/
+│   ├── cmd/           # CLI commands and shell
 │   ├── engine/        # Core module interface
 │   ├── registry/      # Module registry
 │   └── output/        # Formatters (JSON/Text)
@@ -73,6 +82,9 @@ ak-47/
 | Module | Description | MITRE |
 |--------|-------------|-------|
 | port-scanner | High-performance concurrent TCP port scanner | T1040 |
+| http-scanner | HTTP/HTTPS service enumeration and fingerprinting | T1040, T1083 |
+| dns-enum | DNS enumeration and subdomain discovery | T1040, T1589 |
+| subnet-scanner | CIDR range host discovery and port scanning | T1040, T1590 |
 
 ## Development
 
